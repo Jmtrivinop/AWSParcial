@@ -2,17 +2,47 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
 
-  build:
+  build-and-push:
+    name: build and push image
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+    
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+      - name: Build and push image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: jtrivino/parcial:latest
 
+  run-container:
+    name: run container
     runs-on: [self-hosted]
+    needs: build-and-push
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker hello-world
-      run: docker run ubuntu 
+    
+    - name: Pull Docker image
+      run: docker pull jtrivino/parcial
+      
+    - name: Stop and remove old container (if exists)
+      run: |
+          docker stop parcial-services || true
+          docker rm parcial-services || true
+    - name: Run new container with timestamp tag
+      run: |
+          docker run -dit --name parcial-services -p 80:8080 jtrivino/parcial
