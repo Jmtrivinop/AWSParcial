@@ -2,10 +2,10 @@
 using FluentValidation;
 using MoneyBankService.Application.Dto;
 using MoneyBankService.Application.Validators;
-using MoneyBankService.Application.Interfaces;
 using MoneyBankService.Application.Mappers;
 using MoneyBankService.Application.Services;
-using MoneyBankService.Domain.Interfaces.Repositories;
+using MoneyBankService.Application.Interfaces.Repositories;
+using MoneyBankService.Application.Interfaces.Services;
 using MoneyBankService.Infrastructure.Repositories;
 
 namespace MoneyBankService.Api.Extensions;

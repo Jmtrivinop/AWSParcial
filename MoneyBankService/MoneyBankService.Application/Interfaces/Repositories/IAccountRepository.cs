@@ -1,8 +1,12 @@
 ﻿using MoneyBankService.Domain.Common;
-using MoneyBankService.Domain.Entities;
+using MoneyBankService.Domain.Models;
 
-namespace MoneyBankService.Domain.Interfaces.Repositories;
-
-public interface IAccountRepository : IRepository<Account>
+namespace MoneyBankService.Application.Interfaces.Repositories
 {
+
+    public interface IAccountRepository : IRepository<Account>
+    {
+        Task<Account?> GetByAccountNumber(string accountNumber);
+
+    }
 }
