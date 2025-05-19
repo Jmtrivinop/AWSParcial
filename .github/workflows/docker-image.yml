@@ -45,4 +45,4 @@ jobs:
           docker rm parcial-services || true
     - name: Run new container with timestamp tag
       run: |
-          docker run -dit --name parcial-services -p 80:8080 juantrivinop/parcial
+          docker run -dit --name parcial-services --network my_network -p 80:8080 juantrivinop/parcial
